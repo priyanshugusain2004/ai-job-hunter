@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: job_hunter_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: jobhunterpass
+      POSTGRES_DB: ai_job_hunter
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - job_hunter_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: job_hunter_redis
+    networks:
+      - job_hunter_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: job_hunter_backend
+    ports:
+      - "8001:8000"
+    environment:
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=jobhunterpass
+      - POSTGRES_DB=ai_job_hunter
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app
+    networks:
+      - job_hunter_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: job_hunter_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - job_hunter_network
+
+volumes:
+  pgdata:
+
+networks:
+  job_hunter_network:
+    name: job_hunter_network
