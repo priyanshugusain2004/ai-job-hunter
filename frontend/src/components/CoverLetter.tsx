@@ -44,8 +44,8 @@ export const CoverLetter: React.FC = () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
       const [resumesRes, jobsRes] = await Promise.all([
-        fetch('/api/v1/resumes', { headers }),
-        fetch('/api/v1/jobs', { headers })
+        fetch('/api/v1/resumes/', { headers }),
+        fetch('/api/v1/jobs/', { headers })
       ]);
       
       if (!resumesRes.ok || !jobsRes.ok) throw new Error('Failed to load data');

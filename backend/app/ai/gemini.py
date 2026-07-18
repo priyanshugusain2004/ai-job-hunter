@@ -18,8 +18,8 @@ class GeminiProvider(AIProvider):
         self.api_key = api_key
 
     async def _generate(self, prompt: str, system_instruction: str, response_json: bool = False) -> str:
-        # Use gemini-1.5-flash for general fast text tasks with structured JSON support
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={self.api_key}"
+        # Use gemini-2.5-flash for general fast text tasks with structured JSON support
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={self.api_key}"
         
         contents = {
             "parts": [{"text": prompt}]
@@ -126,8 +126,8 @@ class GeminiProvider(AIProvider):
         result_str = await self._generate(
             prompt=chat_prompt,
             system_instruction=CAREER_ADVICE_INSTRUCTION,
-            response_json=True
+            response_json=False
         )
-        return json.loads(result_str)
+        return {"response": result_str}
 
 

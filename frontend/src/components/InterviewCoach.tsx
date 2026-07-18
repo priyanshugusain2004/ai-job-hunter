@@ -41,7 +41,7 @@ export const InterviewCoach: React.FC = () => {
   const fetchApps = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/v1/applications', {
+      const res = await fetch('/api/v1/applications/', {
         headers: {
           Authorization: `Bearer ${token}`
         }

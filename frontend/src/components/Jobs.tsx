@@ -42,7 +42,7 @@ export const Jobs: React.FC = () => {
   const fetchJobs = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/v1/jobs', {
+      const res = await fetch('/api/v1/jobs/', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -72,7 +72,7 @@ export const Jobs: React.FC = () => {
     setSuccessMsg(null);
     
     try {
-      const res = await fetch('/api/v1/jobs', {
+      const res = await fetch('/api/v1/jobs/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

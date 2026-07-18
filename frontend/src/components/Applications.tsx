@@ -48,8 +48,8 @@ export const Applications: React.FC = () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
       const [appsRes, jobsRes] = await Promise.all([
-        fetch('/api/v1/applications', { headers }),
-        fetch('/api/v1/jobs', { headers })
+        fetch('/api/v1/applications/', { headers }),
+        fetch('/api/v1/jobs/', { headers })
       ]);
       
       if (!appsRes.ok || !jobsRes.ok) throw new Error('Failed to fetch application data');

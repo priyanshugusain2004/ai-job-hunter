@@ -57,8 +57,8 @@ export const JobMatcher: React.FC = () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
       const [resumesRes, jobsRes, historyRes] = await Promise.all([
-        fetch('/api/v1/resumes', { headers }),
-        fetch('/api/v1/jobs', { headers }),
+        fetch('/api/v1/resumes/', { headers }),
+        fetch('/api/v1/jobs/', { headers }),
         fetch('/api/v1/match/history', { headers })
       ]);
       

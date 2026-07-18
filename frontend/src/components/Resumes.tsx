@@ -36,7 +36,7 @@ export const Resumes: React.FC = () => {
   const fetchResumes = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/v1/resumes', {
+      const res = await fetch('/api/v1/resumes/', {
         headers: {
           Authorization: `Bearer ${token}`
         }
