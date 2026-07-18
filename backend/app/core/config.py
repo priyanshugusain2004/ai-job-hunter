@@ -22,7 +22,14 @@ class Settings(BaseSettings):
     # AI Keys
     GEMINI_API_KEY: Optional[str] = None
     
+    # Security / JWT
+    SECRET_KEY: str = "dev_secret_key_change_in_production"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
+    
     model_config = SettingsConfigDict(case_sensitive=True, env_file=".env")
 
 
 settings = Settings()
+
