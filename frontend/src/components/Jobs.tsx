@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { 
   Briefcase, Plus, Send, RefreshCw, AlertCircle, 
@@ -39,7 +39,7 @@ export const Jobs: React.FC = () => {
   const [analyzingJobId, setAnalyzingJobId] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
-  const fetchJobs = async () => {
+  const fetchJobs = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch('/api/v1/jobs', {
@@ -55,13 +55,13 @@ export const Jobs: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     if (token) {
       fetchJobs();
     }
-  }, [token]);
+  }, [token, fetchJobs]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

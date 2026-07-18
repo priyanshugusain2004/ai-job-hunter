@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { 
   Sparkles, FileText, RefreshCw, AlertCircle, 
@@ -54,7 +54,7 @@ export const TailorResume: React.FC = () => {
   const [tailoredResult, setTailoredResult] = useState<Resume | null>(null);
   const [resultTab, setResultTab] = useState<'text' | 'changes' | 'skills'>('text');
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const headers = { Authorization: `Bearer ${token}` };
@@ -85,13 +85,13 @@ export const TailorResume: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     if (token) {
       fetchData();
     }
-  }, [token]);
+  }, [token, fetchData]);
 
   const activeResume = resumes.find(r => r.id === selectedResumeId);
   const activeJob = jobs.find(j => j.id === selectedJobId);

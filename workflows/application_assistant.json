@@ -1,0 +1,254 @@
+{
+  "name": "Application Assistant Assets Builder",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "application-assistant",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "c1f7a23c-be65-4d2b-aa5f-cd76a8fbe234",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        200,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://backend:8000/api/v1/jobs/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE4MTU5MzE1NzIsInN1YiI6ImU3OTIwMTc0LWZlNjYtNGRhOC05YjYwLWMyYzVjMWNmZTA0YyIsInR5cGUiOiJhY2Nlc3MifQ.-_SGWrkLdGunHz8ZlBC4eY9S860QfIqkGNJvtk4krH8"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "n8n Webhook Job"
+            },
+            {
+              "name": "company",
+              "value": "n8n Webhook"
+            },
+            {
+              "name": "description_raw",
+              "value": "={{ $json.body.job_description }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d506940a-5b12-42bb-92e1-7e3fcdb20980",
+      "name": "Create Job Record",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        420,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://backend:8000/api/v1/resumes/{{ $node[\"Webhook Trigger\"].json.body.resume_id }}/tailor",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE4MTU5MzE1NzIsInN1YiI6ImU3OTIwMTc0LWZlNjYtNGRhOC05YjYwLWMyYzVjMWNmZTA0YyIsInR5cGUiOiJhY2Nlc3MifQ.-_SGWrkLdGunHz8ZlBC4eY9S860QfIqkGNJvtk4krH8"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "job_id",
+              "value": "={{ $node[\"Create Job Record\"].json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e3cd2287-58b2-4d2b-ad6b-8cd7c5ccfa7c",
+      "name": "Tailor Resume AI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        640,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://backend:8000/api/v1/cover-letters/generate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE4MTU5MzE1NzIsInN1YiI6ImU3OTIwMTc0LWZlNjYtNGRhOC05YjYwLWMyYzVjMWNmZTA0YyIsInR5cGUiOiJhY2Nlc3MifQ.-_SGWrkLdGunHz8ZlBC4eY9S860QfIqkGNJvtk4krH8"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "resume_id",
+              "value": "={{ $node[\"Webhook Trigger\"].json.body.resume_id }}"
+            },
+            {
+              "name": "job_id",
+              "value": "={{ $node[\"Create Job Record\"].json.id }}"
+            },
+            {
+              "name": "tone",
+              "value": "professional"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a9ef7db8-7a54-4720-9428-ec2b55f891d4",
+      "name": "Generate Cover Letter",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        860,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://backend:8000/api/v1/match/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE4MTU5MzE1NzIsInN1YiI6ImU3OTIwMTc0LWZlNjYtNGRhOC05YjYwLWMyYzVjMWNmZTA0YyIsInR5cGUiOiJhY2Nlc3MifQ.-_SGWrkLdGunHz8ZlBC4eY9S860QfIqkGNJvtk4krH8"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "resume_id",
+              "value": "={{ $node[\"Webhook Trigger\"].json.body.resume_id }}"
+            },
+            {
+              "name": "job_id",
+              "value": "={{ $node[\"Create Job Record\"].json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "83cf78ad-534d-4be9-aa5d-4de655a68ef3",
+      "name": "Generate ATS Score & Suggestions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1080,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {
+          "responseBody": "={\n  \"tailored_resume\": {{ JSON.stringify($node[\"Tailor Resume AI\"].json.raw_text) }},\n  \"cover_letter\": {{ JSON.stringify($node[\"Generate Cover Letter\"].json.cover_letter_text) }},\n  \"compatibility_score\": {{ $json.score }},\n  \"suggestions\": {{ JSON.stringify($json.result_json.suggestions) }}\n}"
+        }
+      },
+      "id": "df65a7bc-ae87-432d-be34-cd76fb5aef29",
+      "name": "Respond Webhook Asset Package",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        240
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Create Job Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Job Record": {
+      "main": [
+        [
+          {
+            "node": "Tailor Resume AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tailor Resume AI": {
+      "main": [
+        [
+          {
+            "node": "Generate Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Generate ATS Score & Suggestions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate ATS Score & Suggestions": {
+      "main": [
+        [
+          {
+            "node": "Respond Webhook Asset Package",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f2cd38a7-951b-4d43-8ad5-4a5fbde8ef71",
+  "meta": {
+    "templateId": "application_assistant_webhook"
+  }
+}

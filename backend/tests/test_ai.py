@@ -38,6 +38,23 @@ class MockAIProvider(AIProvider):
             "skills_added": ["Go"]
         }
 
+    async def generate_cover_letter(self, resume_text: str, job_text: str, tone: str):
+        return {}
+
+    async def match_resume_job(self, resume_text: str, job_text: str):
+        return {}
+
+    async def analyze_github(self, repos_data: str):
+        return {}
+
+    async def generate_interview_questions(self, resume_text: str, job_text: str):
+        return {}
+
+    async def get_career_advice(self, message: str, history: list):
+        return {}
+
+
+
 def get_auth_headers(client: TestClient, db: Session) -> dict:
     user = User(
         email="test_ai@example.com",

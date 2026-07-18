@@ -5,9 +5,16 @@ import { SystemStatus } from './SystemStatus';
 import { Resumes } from './Resumes';
 import { Jobs } from './Jobs';
 import { TailorResume } from './TailorResume';
+import { CoverLetter } from './CoverLetter';
+import { GitHubAnalyzer } from './GitHubAnalyzer';
+import { JobMatcher } from './JobMatcher';
+import { Applications } from './Applications';
+import { Analytics } from './Analytics';
+import { InterviewCoach } from './InterviewCoach';
+import { CareerAdvisor } from './CareerAdvisor';
 import { 
   LayoutDashboard, User as UserIcon, Activity, LogOut, 
-  MapPin, Briefcase, ChevronRight, TrendingUp, FileText, Sparkles
+  MapPin, Briefcase, ChevronRight, TrendingUp, FileText, Sparkles, MessageSquare, Award, Bookmark, BarChart3, HelpCircle, ClipboardSignature
 } from 'lucide-react';
 import { Github } from './icons';
 
@@ -15,7 +22,10 @@ import { Github } from './icons';
 
 export const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState<'overview' | 'resumes' | 'jobs' | 'tailoring' | 'profile' | 'system'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'resumes' | 'jobs' | 'tailoring' | 'coverletter' | 'github' | 'matcher' | 'applications' | 'analytics' | 'interview' | 'careeradvisor' | 'profile' | 'system'>('overview');
+
+
+
 
 
   return (
@@ -98,6 +108,112 @@ export const Dashboard: React.FC = () => {
             </button>
 
             <button
+              onClick={() => setActiveTab('matcher')}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeTab === 'matcher'
+                  ? 'bg-gradient-to-r from-violet-600/20 to-indigo-600/20 border border-violet-500/30 text-violet-400'
+                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 border border-transparent'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Award className="h-4.5 w-4.5" />
+                <span>Job Fit Matcher</span>
+              </div>
+              <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${activeTab === 'matcher' ? 'translate-x-0.5' : 'opacity-0'}`} />
+            </button>
+
+            <button
+              onClick={() => setActiveTab('coverletter')}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeTab === 'coverletter'
+                  ? 'bg-gradient-to-r from-violet-600/20 to-indigo-600/20 border border-violet-500/30 text-violet-400'
+                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 border border-transparent'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <MessageSquare className="h-4.5 w-4.5" />
+                <span>AI Cover Letter</span>
+              </div>
+              <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${activeTab === 'coverletter' ? 'translate-x-0.5' : 'opacity-0'}`} />
+            </button>
+
+            <button
+              onClick={() => setActiveTab('github')}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeTab === 'github'
+                  ? 'bg-gradient-to-r from-violet-600/20 to-indigo-600/20 border border-violet-500/30 text-violet-400'
+                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 border border-transparent'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Github className="h-4.5 w-4.5 text-slate-400" />
+                <span>GitHub Analyzer</span>
+              </div>
+              <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${activeTab === 'github' ? 'translate-x-0.5' : 'opacity-0'}`} />
+            </button>
+
+            <button
+              onClick={() => setActiveTab('applications')}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeTab === 'applications'
+                  ? 'bg-gradient-to-r from-violet-600/20 to-indigo-600/20 border border-violet-500/30 text-violet-400'
+                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 border border-transparent'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Bookmark className="h-4.5 w-4.5" />
+                <span>Application Tracker</span>
+              </div>
+              <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${activeTab === 'applications' ? 'translate-x-0.5' : 'opacity-0'}`} />
+            </button>
+
+            <button
+              onClick={() => setActiveTab('analytics')}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeTab === 'analytics'
+                  ? 'bg-gradient-to-r from-violet-600/20 to-indigo-600/20 border border-violet-500/30 text-violet-400'
+                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 border border-transparent'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <BarChart3 className="h-4.5 w-4.5" />
+                <span>Analytics Dashboard</span>
+              </div>
+              <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${activeTab === 'analytics' ? 'translate-x-0.5' : 'opacity-0'}`} />
+            </button>
+
+            <button
+              onClick={() => setActiveTab('interview')}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeTab === 'interview'
+                  ? 'bg-gradient-to-r from-violet-600/20 to-indigo-600/20 border border-violet-500/30 text-violet-400'
+                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 border border-transparent'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <HelpCircle className="h-4.5 w-4.5" />
+                <span>Interview Prep Coach</span>
+              </div>
+              <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${activeTab === 'interview' ? 'translate-x-0.5' : 'opacity-0'}`} />
+            </button>
+
+            <button
+              onClick={() => setActiveTab('careeradvisor')}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeTab === 'careeradvisor'
+                  ? 'bg-gradient-to-r from-violet-600/20 to-indigo-600/20 border border-violet-500/30 text-violet-400'
+                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 border border-transparent'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <ClipboardSignature className="h-4.5 w-4.5 text-slate-400" />
+                <span>AI Career Chat Advisor</span>
+              </div>
+              <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${activeTab === 'careeradvisor' ? 'translate-x-0.5' : 'opacity-0'}`} />
+            </button>
+
+            <button
+
 
               onClick={() => setActiveTab('profile')}
               className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
@@ -161,8 +277,16 @@ export const Dashboard: React.FC = () => {
             {activeTab === 'resumes' && 'My Resumes'}
             {activeTab === 'jobs' && 'Target Jobs'}
             {activeTab === 'tailoring' && 'AI Resume Tailor'}
+            {activeTab === 'matcher' && 'Job Fit Compatibility Matcher'}
+            {activeTab === 'coverletter' && 'AI Cover Letter Generator'}
+            {activeTab === 'github' && 'GitHub Profile Tech Evaluator'}
+            {activeTab === 'applications' && 'Job Pipeline tracker'}
+            {activeTab === 'analytics' && 'Applications metrics dashboard'}
+            {activeTab === 'interview' && 'Interview Coaching prep'}
+            {activeTab === 'careeradvisor' && 'AI Career Consultant Chat'}
             {activeTab === 'profile' && 'My Profile'}
             {activeTab === 'system' && 'Infrastructure Check'}
+
 
           </h2>
           
@@ -277,8 +401,26 @@ export const Dashboard: React.FC = () => {
                   </div>
                   
                   <div className="flex items-center gap-3">
-                    <span className="h-5 w-5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/30 flex items-center justify-center text-[10px] font-bold">4</span>
-                    <span className="text-xs font-semibold text-slate-200">Phase 4: AI Layer & Resume Tailoring</span>
+                    <span className="h-5 w-5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-[10px] font-bold">4</span>
+                    <span className="text-xs font-semibold text-slate-300">Phase 4: AI Layer & Resume Tailoring</span>
+                    <span className="ml-auto text-[10px] bg-emerald-500/15 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/25 font-bold uppercase">Complete</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <span className="h-5 w-5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-[10px] font-bold">5</span>
+                    <span className="text-xs font-semibold text-slate-300">Phase 5: Cover Letters & GitHub Analyzer</span>
+                    <span className="ml-auto text-[10px] bg-emerald-500/15 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/25 font-bold uppercase">Complete</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <span className="h-5 w-5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-[10px] font-bold">6</span>
+                    <span className="text-xs font-semibold text-slate-350">Phase 6: Application Tracker & Mock Sync</span>
+                    <span className="ml-auto text-[10px] bg-emerald-500/15 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/25 font-bold uppercase">Complete</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <span className="h-5 w-5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/30 flex items-center justify-center text-[10px] font-bold">7</span>
+                    <span className="text-xs font-semibold text-slate-200">Phase 7: Automation & Adapters</span>
                     <span className="ml-auto text-[10px] bg-violet-500/20 text-violet-400 px-2 py-0.5 rounded-full border border-violet-500/20 font-bold uppercase animate-pulse">Active</span>
                   </div>
                 </div>
@@ -291,6 +433,20 @@ export const Dashboard: React.FC = () => {
           {activeTab === 'jobs' && <Jobs />}
 
           {activeTab === 'tailoring' && <TailorResume />}
+
+          {activeTab === 'matcher' && <JobMatcher />}
+
+          {activeTab === 'coverletter' && <CoverLetter />}
+
+          {activeTab === 'github' && <GitHubAnalyzer />}
+
+          {activeTab === 'applications' && <Applications />}
+
+          {activeTab === 'analytics' && <Analytics />}
+
+          {activeTab === 'interview' && <InterviewCoach />}
+
+          {activeTab === 'careeradvisor' && <CareerAdvisor />}
 
           {activeTab === 'profile' && <Profile />}
 
